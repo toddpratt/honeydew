@@ -7,3 +7,4 @@ if __name__ == "__main__":
     sf = protocol.ServerFactory()
     sf.protocol = linerecv.LineProto
     reactor.listenTCP(8023, sf)
+    reactor.run()
