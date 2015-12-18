@@ -3,12 +3,6 @@ from twisted.protocols import basic
 
 class LineProto(basic.LineReceiver):
 
-    def __init__(self, commands):
-        """Initialize the protocol.
-
-        commands is a dictionary where keys are command names and values are
-        command handlers."""
-
     def lineReceived(self, line):
         """Receives a raw line."""
 
