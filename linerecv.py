@@ -1,15 +1,15 @@
+import shlex
 
 from twisted.protocols import basic
 
 class LineProto(basic.LineReceiver):
+    """Dispatches commands."""
 
     def lineReceived(self, line):
         """Receives a raw line."""
-
-
-        # TODO: process a line and dispatch to command handlers
-        #
-        # The line needs to be split into words (shlex module).  The first word
-        # is the command and the rest are arguments.
-
-        self.sendLine(line)  # just echo the line back for initial test
+        args = shlex.split(line)
+        command = self.factory.commands.get(args[0])
+        if command:
+            command.run(args)
+        else:
+            self.sendLine("%s: command not found" % args[0])
