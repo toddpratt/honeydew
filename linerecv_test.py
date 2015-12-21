@@ -20,12 +20,23 @@ class MockFactory(object):
 
 class TestLineRecv(unittest.TestCase):
 
+    def setUp(self):
+        self.lp = linerecv.LineProto()
+
+    def sendLineMock(self, line):
+        self.lineSent = line
+
     def testLineReceived(self):
         cmd = MockCommand()
-        lp = linerecv.LineProto()
-        lp.factory = MockFactory({'cmd': cmd})
-        lp.lineReceived(' cmd argument ')
+        self.lp.factory = MockFactory({'cmd': cmd})
+        self.lp.lineReceived(' cmd argument ')
         self.assertEqual(cmd.args, ['cmd', 'argument'])
+
+    def testLineReceivedNoCommand(self):
+        self.lp.sendLine = self.sendLineMock
+        self.lp.factory = MockFactory({})
+        self.lp.lineReceived(' nocmd argument '),
+        self.assertEqual(self.lineSent, "nocmd: command not found")
 
 
 if __name__ == '__main__':
