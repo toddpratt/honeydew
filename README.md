@@ -1,1 +1,1 @@
-# honeydew
+# a game server and console client
